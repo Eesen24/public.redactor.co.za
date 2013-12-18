@@ -30,6 +30,7 @@ Comments
 /comments/{id} - Get comments identified by a set of ids.
 
 Reply
+======
 /reply - Get all replies on the site.
 
 /reply/{id} - Get reply identified by a set of ids.
