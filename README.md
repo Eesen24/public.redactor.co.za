@@ -1,6 +1,5 @@
 API Usage
 ==========
-
 This is the documentation for the v1.0 Forum API. The following Rest API provides an interface for clients to register and authenticate users, create topics, post comments, reply to comments and delete comments for public.redactor.co.za.
 
 METHODS
