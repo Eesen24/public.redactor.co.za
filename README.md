@@ -7,19 +7,21 @@ METHODS
 
 Below are the API methods. The browsable API that REST framework provides makes it possible for the API to be entirely self describing. The documentation for each API endpoint can be provided simply by visiting the URL in your browser. eg. http://public.redactor.co.za/topics/
 
+I have provided a method where by you can login with the user you have created in order to implement CRUD operations on certain authenticated methods. The login link can be found on the top right corner of the browsable API.
+
 Register
 =========
 /register - register new users with username and password fields.
 
 User
 =====
-/user - Get all users registered on the site.
+/user - Get all users registered on the site, only if you authenticated.
 
-/user/{id} - Get users identified by a set of ids.
+/user/{id} - Get users identified by a set of ids, only if you authenticated.
 
 Topics
 ======
-/topics - Get all topics on the site.
+/topics - Get all topics on the site. You can only post a topic if you authenticated.
 
 /topics/{id} - Get topics identified by a set of ids.
 
