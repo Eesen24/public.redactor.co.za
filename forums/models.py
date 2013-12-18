@@ -40,6 +40,7 @@ class Comments(models.Model):
     id = models.AutoField(primary_key=True)
     comment = models.CharField(max_length=100)
     topic = models.ForeignKey(Topics)
+    owner = models.ForeignKey(Users)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.id, self.comment, self.topic)
@@ -52,6 +53,7 @@ class Replies(models.Model):
     id = models.AutoField(primary_key=True)
     replies = models.CharField(max_length=100)
     comment = models.ForeignKey(Comments)
+    owner = models.ForeignKey(Users)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.id, self.comment, self.comment)

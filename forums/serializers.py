@@ -57,7 +57,7 @@ class CommentsSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Comments
-        fields = ('id', 'comment', 'topic')
+        fields = ('id', 'comment', 'topic',  'owner')
     
     def restore_object(self, attrs, instance=None):
         """
@@ -71,6 +71,7 @@ class CommentsSerializer(serializers.ModelSerializer):
             # Update existing instance
             instance.comment = attrs.get('comment', instance.comment)
             instance.topic = attrs.get('topic', instance.topic)
+            instance.owner = attrs.get('owner', instance.owner)
             return instance
 
         # Create new instance
@@ -80,7 +81,7 @@ class RepliesSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Replies
-        fields = ('id', 'replies', 'comment')
+        fields = ('id', 'replies', 'comment', 'owner')
     
     def restore_object(self, attrs, instance=None):
         """
@@ -94,6 +95,7 @@ class RepliesSerializer(serializers.ModelSerializer):
             # Update existing instance
             instance.replies = attrs.get('replies', instance.replies)
             instance.comment = attrs.get('comment', instance.comment)
+            instance.owner = attrs.get('owner', instance.owner)
             return instance
 
         # Create new instance
