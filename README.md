@@ -14,18 +14,22 @@ Register
 User
 =====
 /user - Get all users registered on the site.
+
 /user/{id} - Get users identified by a set of ids.
 
 Topics
 ======
 /topics - Get all topics on the site.
+
 /topics/{id} - Get topics identified by a set of ids.
 
 Comments
 =========
 /comments - Get all comments on the site.
+
 /comments/{id} - Get comments identified by a set of ids.
 
 Reply
 /reply - Get all replies on the site.
+
 /reply/{id} - Get reply identified by a set of ids.
