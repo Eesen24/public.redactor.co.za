@@ -51,6 +51,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
 ROOT_URLCONF = 'restapp.urls'
 
 WSGI_APPLICATION = 'restapp.wsgi.application'
@@ -62,7 +67,8 @@ WSGI_APPLICATION = 'restapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'tmp.db',
+        #'NAME': 'tmp.db',
+        'NAME': '/home/restapp/checkouts/restapp/tmp.db',
     }
 }
 
@@ -84,3 +90,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/public.redactor.co.za/static/'
