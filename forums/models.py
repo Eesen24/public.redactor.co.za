@@ -1,24 +1,18 @@
 from django.db import models
 import datetime
-
+from django.contrib.auth.models import User, UserManager
 """
     Below are the Model definitions used within the App:
     Model: Users, Topics, Comments, Replies
 """
 
 # Create your models here.
-class Users(models.Model):
-    """
-    Stores a username and password
-    :model:`auth.User`.
-    """
-    #TODO: Need to still figure out how to implement the Django auth 
-    id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    
-    def __unicode__(self):
-        return u'%s %s %s' % (self.id, self.username, self.password)
+class CustomUser(User):
+    """User with app settings."""
+    #timezone = models.CharField(max_length=50, default='Europe/London')
+
+    # Use UserManager to get the create_user method, etc.
+    objects = UserManager()
     
 class Topics(models.Model):
     """
@@ -27,10 +21,18 @@ class Topics(models.Model):
     """
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=100)
-    owner = models.ForeignKey(Users)
+    #owner = models.ForeignKey(Users)
+    owner = models.ForeignKey('auth.User', related_name='topics')
     
     def __unicode__(self):
         return u'%s %s %s' % (self.id, self.title, self.owner)
+    
+    def save(self, *args, **kwargs):
+        """
+        Use the `pygments` library to create a highlighted HTML
+        representation of the code snippet.
+        """
+        super(Topics, self).save(*args, **kwargs)
 
 class Comments(models.Model):
     """
@@ -40,7 +42,7 @@ class Comments(models.Model):
     id = models.AutoField(primary_key=True)
     comment = models.CharField(max_length=100)
     topic = models.ForeignKey(Topics)
-    owner = models.ForeignKey(Users)
+    owner = models.ForeignKey(CustomUser)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.id, self.comment, self.topic)
@@ -53,7 +55,7 @@ class Replies(models.Model):
     id = models.AutoField(primary_key=True)
     replies = models.CharField(max_length=100)
     comment = models.ForeignKey(Comments)
-    owner = models.ForeignKey(Users)
+    owner = models.ForeignKey(CustomUser)
     
     def __unicode__(self):
         return u'%s %s %s' % (self.id, self.comment, self.comment)

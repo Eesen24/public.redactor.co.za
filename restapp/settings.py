@@ -26,7 +26,13 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PROFILE_MODULE = 'forums.CustomUser'
 
+AUTHENTICATION_BACKENDS = (
+    'forums.auth_backends.CustomUserModelBackend',
+)
+CUSTOM_USER_MODEL = 'forums.CustomUser'
+#AUTH_USER_MODEL = 'auth.User'
 # Application definition
 
 INSTALLED_APPS = (
@@ -67,8 +73,8 @@ WSGI_APPLICATION = 'restapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': 'tmp.db',
-        'NAME': '/home/restapp/checkouts/restapp/tmp.db',
+        'NAME': 'tmp.db',
+        #'NAME': '/home/restapp/checkouts/restapp/tmp.db',
     }
 }
 

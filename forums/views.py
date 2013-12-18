@@ -1,9 +1,14 @@
 from django.shortcuts import render
 
 # Create your views here.
-from forums.models import Users, Topics, Comments, Replies
+from forums.models import CustomUser, Topics, Comments, Replies
 from forums.serializers import UserSerializer, TopicSerializer, CommentsSerializer, RepliesSerializer
 from rest_framework import generics
+from django.contrib.auth.models import User
+from rest_framework import permissions
+from forums.permissions import IsOwnerOrReadOnly
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 """
     Generic Views:
@@ -12,14 +17,14 @@ from rest_framework import generics
     that map closely to your database models.
     
 """
-
+    
 class Register(generics.CreateAPIView):
     """
         CreateAPIView: Used for create-only.
         
     """
-    serializer_class = UserSerializer
-    
+    serializer_class = UserSerializer       
+        
 class UserList(generics.ListAPIView):
     """
        ListAPIView: Used for read-only, to represent a collection of model instances.
@@ -27,16 +32,18 @@ class UserList(generics.ListAPIView):
        Example to view a specific user: /users/{id}
        
     """
-    queryset = Users.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,) #For now if you logged in you can see everyones user detail
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """
         RetrieveUpdateDestroyAPIView: Used for read-write-delete, to represent a single model instance.
         
     """
-    queryset = Users.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticated,)
     
 class TopicList(generics.ListCreateAPIView):
     """
@@ -49,16 +56,24 @@ class TopicList(generics.ListCreateAPIView):
         
         Example to view a specific topic: /topics/{id}
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Topics.objects.all()
     serializer_class = TopicSerializer
+    
+    def pre_save(self, obj):
+        obj.owner = self.request.user
 
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     """
         RetrieveUpdateDestroyAPIView: Used for read-write-delete, to represent a single model instance.
         
     """
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly)
     queryset = Topics.objects.all()
     serializer_class = TopicSerializer
+    
+    def pre_save(self, obj):
+        obj.owner = self.request.user
     
 class CommentList(generics.ListCreateAPIView):
     """

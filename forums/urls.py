@@ -4,6 +4,7 @@ from forums import views
 from django.contrib import admin
 admin.autodiscover()
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf.urls import include
 
 urlpatterns = patterns('forums.views',
     url(r'^register/$', views.Register.as_view()),
@@ -17,7 +18,13 @@ urlpatterns = patterns('forums.views',
     url(r'^reply/(?P<pk>[0-9]+)/$', views.ReplyDetail.as_view()),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    
 )
 
 urlpatterns = format_suffix_patterns(urlpatterns)
 urlpatterns += staticfiles_urlpatterns()
+
+urlpatterns += patterns('',
+    url(r'^api-auth/', include('rest_framework.urls',
+                               namespace='rest_framework')),
+)
